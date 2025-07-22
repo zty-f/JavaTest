@@ -495,6 +495,8 @@ public class RobotDataImporter {
         long photoId = 1; // 起始照片ID
         long albumId = 0; // 起始相册ID
         long robotId = 7527642214542049306L; // 固定的机器人ID
+        // 生成唯一的open_id
+        long openId =System.currentTimeMillis() / 1000;
         
         for (FolderInfo folder : folders) {
             script.append("-- 文件夹: ").append(folder.getFolderPath()).append("\n");
@@ -511,9 +513,6 @@ public class RobotDataImporter {
                     System.out.println("警告: 用户头像不是有效的OSS链接: " + user.getNickname() + " - " + user.getAvatarPath());
                     continue;
                 }
-                
-                // 生成唯一的open_id
-                String openId = String.valueOf(System.currentTimeMillis() / 1000);
                 
                 // 插入用户信息到joy_profile表
                 script.append("INSERT INTO ").append(usersTable).append(" (");
@@ -561,6 +560,7 @@ public class RobotDataImporter {
                 }
                 
                 userId++;
+                openId++;
             }
             script.append("\n");
         }
